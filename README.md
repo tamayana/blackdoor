@@ -142,5 +142,4 @@ Ketik `.donate` di bot buat liat QRIS!
  <b>© Blackdoor by Tama-ID</b><br>
  Jangan lupa kasih ⭐ di repo ini ya bung!
 </p>
-~~~
 
