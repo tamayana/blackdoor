@@ -1,0 +1,20 @@
+{
+  "name": "blackdoor",
+  "version": "1.0.0",
+  "description": "Blackdoor by Tama-ID - Bot WhatsApp",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Tama-ID",
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.0",
+    "pino": "^9.0.0",
+    "qrcode-terminal": "^8.0.0",
+    "axios": "^1.7.0",
+    "fs-extra": "^11.2.0",
+    "node-fetch": "^3.3.2"
+  }
+}
