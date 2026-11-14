@@ -1,8 +1,7 @@
-// Blackdoor by TAMAYANA - Pairing Code Version
+// Blackdoor by Tama-ID 
 import { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } from '@whiskeysockets/baileys';
 import pino from 'pino';
 import fs from 'fs';
-import path from 'path';
 import readline from 'readline';
 import config from './config.js';
 
@@ -19,23 +18,39 @@ for (const file of pluginFiles) {
 }
 
 async function startBot() {
+  // === KODE KEAMANAN - HARUS TAMAYANA! ===
+  console.log('\n======================================');
+  console.log('🚪 BLACKDOOR by Tama-ID');
+  console.log('🔒 MODE KEAMANAN AKTIF!');
+  console.log('======================================\n');
+
+  const kode = await question('Masukin KODE buat jalanin bot bung: ');
+  if (kode.trim() !== 'TAMAYANA') {
+    console.log('\n❌ KODE SALAH BUNG! Bot gak mau jalan!');
+    console.log('Kode nya harus: TAMAYANA');
+    console.log('Coba lagi! Ketik: npm start');
+    process.exit(0);
+  }
+
+  console.log('\n✅ KODE BENAR! TAMAYANA DITERIMA!');
+  console.log('Lanjut ke Pairing Code...\n');
+
   const { version } = await fetchLatestBaileysVersion();
   const { state, saveCreds } = await useMultiFileAuthState('./blackdoor-session');
 
   const sock = makeWASocket({
     version,
     logger: pino({ level: 'silent' }),
-    printQRInTerminal: false, // GAK PAKE QR LAGI BUNG!
+    printQRInTerminal: false, // GAK PAKE QR!
     auth: state,
     browser: ['Blackdoor', 'Chrome', '1.0.0'],
     syncFullHistory: false,
     markOnlineOnConnect: true,
   });
 
-  // === PAIRING CODE - KHUSUS TAMAYANA ===
+  // === PAIRING CODE ===
   if (!sock.authState.creds.registered) {
-    console.log('\n======================================');
-    console.log('🚪 BLACKDOOR by TAMAYANA');
+    console.log('======================================');
     console.log('🔑 MODE PAIRING CODE - GAK PAKE QR!');
     console.log('======================================\n');
 
@@ -48,7 +63,6 @@ async function startBot() {
     }
 
     console.log('\n⏳ Lagi minta pairing code... Tunggu bentar...');
-    // Kasih jeda biar koneksi stabil dulu
     await new Promise(r => setTimeout(r, 3000));
 
     try {
@@ -59,15 +73,15 @@ async function startBot() {
       console.log('======================================');
       console.log('Cara masukinnya:');
       console.log('1. Buka WA di HP lu');
-      console.log('2. Klik titik 3 > Perangkat Tertaut / Linked Devices');
-      console.log('3. Klik Tautkan Perangkat / Link a Device');
-      console.log('4. Klik "Tautkan dengan nomor telepon" / "Link with phone number"');
+      console.log('2. Klik titik 3 > Perangkat Tertaut');
+      console.log('3. Klik Tautkan Perangkat');
+      console.log('4. Klik "Tautkan dengan nomor telepon"');
       console.log(`5. Masukin kode ini: ${code}`);
       console.log('6. Beres! Bot langsung nyambung!');
       console.log('======================================\n');
     } catch (e) {
       console.log('❌ Gagal minta pairing code bung! Error:', e.message);
-      console.log('Coba: 1. Hapus folder blackdoor-session, 2. Jalanin lagi npm start');
+      console.log('Coba: Hapus folder blackdoor-session, terus jalanin lagi!');
       process.exit(0);
     }
   }
@@ -82,12 +96,11 @@ async function startBot() {
       if (shouldReconnect) startBot();
       else {
         console.log('❌ Bot ke logout! Hapus folder blackdoor-session, terus jalanin lagi!');
-        console.log('Hapus folder: rm -rf blackdoor-session');
       }
     }
     if (connection === 'open') {
       console.log('\n✅ BLACKDOOR UDAH NYAMBUNG BUNG! 🔥');
-      console.log('Bot by TAMAYANA udah online!');
+      console.log('Bot by Tama-ID udah online!');
       console.log(`Prefix: ${config.prefix}`);
       console.log(`Ketik ${config.prefix}menu buat liat menu!`);
     }
@@ -99,43 +112,29 @@ async function startBot() {
       const msg = messages[0];
       if (!msg.message) return;
       if (msg.key.fromMe) return;
-
       const from = msg.key.remoteJid;
       const sender = msg.key.participant || from;
       const senderNum = sender.split('@')[0];
       const isGroup = from.endsWith('@g.us');
-
-      // Cek banned
       if (config.banned?.includes(sender)) return;
-
-      // Cek self mode - cuma owner yang bisa
       if (config.selfMode && !config.owner.includes(senderNum)) return;
-
-      // Ambil teks pesan
       const text = msg.message.conversation || msg.message.extendedTextMessage?.text || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption || '';
       if (!text) return;
-
-      // Cek prefix
       if (!text.startsWith(config.prefix)) return;
       const args = text.slice(config.prefix.length).trim().split(/ +/);
       const command = args.shift().toLowerCase();
       const textArgs = args.join(' ');
-
       console.log(`📩 [${isGroup ? 'GRUP' : 'PRIBADI'}] ${senderNum}: ${text}`);
-
-      // Cari plugin yang punya command ini
       for (const plugin of plugins) {
         if (plugin.command?.includes(command)) {
           await plugin.handler({ sock, msg, from, sender, args, text: textArgs, config, command });
           break;
         }
       }
-    } catch (e) {
-      console.log('Error handle pesan:', e.message);
-    }
+    } catch (e) { console.log('Error handle pesan:', e.message); }
   });
 
-  // === ANTI-VIRTEX / ANTI-LINK / WELCOME DLL - OTOMATIS ===
+  // === ANTI-VIRTEX / ANTI-LINK / DLL ===
   sock.ev.on('messages.upsert', async ({ messages }) => {
     try {
       const msg = messages[0];
@@ -145,26 +144,21 @@ async function startBot() {
       const sender = msg.key.participant || from;
       const senderNum = sender.split('@')[0];
       const text = msg.message.conversation || msg.message.extendedTextMessage?.text || '';
-
       const metadata = await sock.groupMetadata(from).catch(() => null);
       if (!metadata) return;
       const isAdmin = metadata.participants.find(p => p.id === sender)?.admin;
       const isOwner = config.owner.includes(senderNum);
-      if (isAdmin || isOwner) return; // Admin / owner bebas!
-
-      // Anti Virtex - Kalo teks panjang banget / aneh
+      if (isAdmin || isOwner) return;
       if (config.antivirtex && text.length > 5000) {
         await sock.sendMessage(from, { text: `⚠️ @${senderNum} ngirim virtex! Auto kick!`, mentions: [sender] });
         await sock.groupParticipantsUpdate(from, [sender], 'remove');
         return;
       }
-      // Anti Link - Kalo kirim link grup / judol
       if (config.antilink && (text.includes('chat.whatsapp.com/') || text.includes('t.me/') || text.includes('discord.gg/'))) {
         await sock.sendMessage(from, { text: `⚠️ @${senderNum} ngirim link! Auto kick!`, mentions: [sender] });
         await sock.groupParticipantsUpdate(from, [sender], 'remove');
         return;
       }
-      // Anti Judol - Kata-kata judi
       const judolWords = ['slot gacor', 'judol', 'maxwin', 'deposit', 'togel', 'gacor77', 'slot88'];
       if (config.antijudol && judolWords.some(w => text.toLowerCase().includes(w))) {
         await sock.sendMessage(from, { text: `⚠️ @${senderNum} promosi judol! Auto kick!`, mentions: [sender] });
@@ -174,17 +168,17 @@ async function startBot() {
     } catch {}
   });
 
-  // === WELCOME / GOODBYE OTOMATIS ===
+  // === WELCOME / GOODBYE ===
   sock.ev.on('group-participants.update', async (update) => {
     try {
       const { id, participants, action } = update;
       const metadata = await sock.groupMetadata(id);
       for (const p of participants) {
         if (action === 'add' && config.welcome) {
-          await sock.sendMessage(id, { text: `👋 Halo @${p.split('@')[0]}! Selamat datang di *${metadata.subject}*!\n\nKetik ${config.prefix}menu buat liat menu Blackdoor!\n\n_© Blackdoor by TAMAYANA_`, mentions: [p] });
+          await sock.sendMessage(id, { text: `👋 Halo @${p.split('@')[0]}! Selamat datang di *${metadata.subject}*!\n\nKetik ${config.prefix}menu buat liat menu Blackdoor!\n\n_© Blackdoor by Tama-ID_`, mentions: [p] });
         }
         if (action === 'remove' && config.goodbye) {
-          await sock.sendMessage(id, { text: `👋 Bye @${p.split('@')[0]}! Semoga balik lagi ya!\n\n_© Blackdoor by TAMAYANA_`, mentions: [p] });
+          await sock.sendMessage(id, { text: `👋 Bye @${p.split('@')[0]}! Semoga balik lagi ya!\n\n_© Blackdoor by Tama-ID_`, mentions: [p] });
         }
       }
     } catch {}
