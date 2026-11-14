@@ -1,4 +1,3 @@
-~~~md
 <p align="center">
  <img src="media/blackdoor.jpg" width="400" alt="Blackdoor" />
 </p>
