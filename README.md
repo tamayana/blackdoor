@@ -1,3 +1,4 @@
+~~~md
 <p align="center">
  <img src="media/blackdoor.jpg" width="400" alt="Blackdoor" />
 </p>
@@ -75,15 +76,18 @@
 
 🚀 Cara Install
 
+<pre>
 git clone https://github.com/tamayana/blackdoor.git
 cd blackdoor
 npm install
 npm start
+</pre>
 
 > Buka `config.js`, ganti nomor owner, terus jalanin `npm start` dan ikutin petunjuk di terminal buat login pake Pairing Code.
 
-⚙️ Setting di http://config.js
+⚙️ Setting di config.js
 
+<pre>
 export default {
  owner: ['62xxxx'],
  ownerName: 'Tama-ID',
@@ -100,9 +104,11 @@ export default {
  antisticker: false,
  banned: []
 };
+</pre>
 
 📁 Struktur Folder
 
+<pre>
 blackdoor/
 ├── index.js
 ├── config.js
@@ -121,6 +127,7 @@ blackdoor/
  ├── bot.jpg
  ├── blackdoor.jpg
  └── qris.jpg
+</pre>
 
 ---
 
