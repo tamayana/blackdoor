@@ -75,28 +75,16 @@
 
 🚀 Cara Install
 
- git clone https://github.com/tamayana/blackdoor.git
- cd blackdoor
- npm install
+git clone https://github.com/tamayana/blackdoor.git
+cd blackdoor
+npm install
+npm start
 
- # Buka config.js, ganti nomor owner
- # Terus jalanin:
- npm start
+> Buka `config.js`, ganti nomor owner, terus jalanin `npm start` dan ikutin petunjuk di terminal buat login pake Pairing Code.
 
- # Bot bakal nanya KODE:
- # Ketik: TAMAYANA
- # Kalo salah, bot gak mau jalan!
+⚙️ Setting di http://config.js
 
- # Terus bot nanya nomor WA bot (pake 62)
- # Contoh: 62853xxxx
- # Terus bot kasih kode pairing, contoh: ABCD-1234
- # Buka WA di HP > Titik 3 > Perangkat Tertaut > Tautkan Perangkat > Tautkan dengan nomor telepon
- # Masukin kode pairing itu
- # Beres! Bot langsung nyambung!
-
-⚙️ Setting di config.js
-
- export default {
+export default {
  owner: ['62xxxx'],
  ownerName: 'Tama-ID',
  botName: 'Blackdoor',
@@ -111,31 +99,25 @@
  antiluar: false,
  antisticker: false,
  banned: []
- };
-
-🔑 Kode Keamanan
-
- Kode buat jalanin bot: TAMAYANA
- Owner: Tama-ID
- Login: Pairing Code (Gak Pake QR!)
+};
 
 📁 Struktur Folder
 
- blackdoor/
- ├── index.js
- ├── config.js
- ├── package.json
- ├── README.md
- ├── plugins/
- │ ├── menu.js
- │ ├── donate.js
- │ ├── owner.js
- │ ├── group.js
- │ ├── downloader.js
- │ ├── sticker.js
- │ ├── ai.js
- │ └── game.js
- └── media/
+blackdoor/
+├── index.js
+├── config.js
+├── package.json
+├── README.md
+├── plugins/
+│ ├── menu.js
+│ ├── donate.js
+│ ├── owner.js
+│ ├── group.js
+│ ├── downloader.js
+│ ├── sticker.js
+│ ├── ai.js
+│ └── game.js
+└── media/
  ├── bot.jpg
  ├── blackdoor.jpg
  └── qris.jpg
