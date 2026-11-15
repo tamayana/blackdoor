@@ -1,20 +1,46 @@
 {
   "name": "blackdoor",
   "version": "1.0.0",
-  "description": "Blackdoor by Tama-ID - Bot WhatsApp",
+  "description": "Blackdoor by Tama-ID - Bot WhatsApp Plugins - ESM",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": [
+    "Whatsapp-MD",
+    "Baileys",
+    "esm",
+    "whatsapp-bot",
+    "blackdoor"
+  ],
   "author": "Tama-ID",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.0",
-    "pino": "^9.0.0",
-    "qrcode-terminal": "^8.0.0",
-    "axios": "^1.7.0",
-    "fs-extra": "^11.2.0",
-    "node-fetch": "^3.3.2"
+    "@adiwajshing/baileys": "npm:baileys@7.0.0-rc.9",
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@colors/colors": "^1.5.0",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@hapi/boom": "^10.0.1",
+    "@upstash/redis": "^1.34.4",
+    "@napi-rs/canvas": "^0.1.52",
+    "@whiskeysockets/baileys": "latest",
+    "awesome-phonenumber": "^6.4.0",
+    "axios": "^0.27.2",
+    "baileys-mbuilder": "github:FgsiDev/Baileys-MessageBuilder",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "fflate": "^0.8.2",
+    "file-type": "^19.0.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "form-data": "^4.0.0",
+    "human-readable": "^0.2.1",
+    "jimp": "^1.6.0",
+    "moment-timezone": "^0.5.34",
+    "node-fetch": "^2.6.1",
+    "node-webpmux": "^3.2.1",
+    "pino": "^8.17.2",
+    "sharp": "^0.34.1",
+    "tar": "^6.2.1"
   }
 }
